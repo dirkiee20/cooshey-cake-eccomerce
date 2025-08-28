@@ -151,6 +151,7 @@ header {
 }
 
 .header__image::before {
+  display: none;
   position: absolute;
   content: "";
   height: 100%;
@@ -161,7 +162,7 @@ header {
 }
 
 .header__image img {
-  max-width: 675px;
+  max-width: 675px; /* You can adjust this value as needed */
 }
 
 .header__content {
@@ -325,7 +326,7 @@ header {
 
 .banner__image {
   min-height: 200px;
-  background-image: url("assets/banner.jpg");
+  background-image: url("assets/banners.jpg");
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
