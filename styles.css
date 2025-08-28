@@ -50,6 +50,7 @@
   cursor: pointer;
 }
 
+
 .btn:hover {
   background-color: var(--primary-color-dark);
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
@@ -150,6 +151,7 @@ header {
 }
 
 .header__image::before {
+  display: none;
   position: absolute;
   content: "";
   height: 100%;
@@ -160,7 +162,7 @@ header {
 }
 
 .header__image img {
-  max-width: 675px;
+  max-width: 675px; /* You can adjust this value as needed */
 }
 
 .header__content {
@@ -255,6 +257,130 @@ header {
   background-color: var(--white);
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
 }
+/* CART PAGE STYLES */
+  .cart-page-header {
+  padding: 1rem;
+  max-width: var(--max-width);
+  margin: auto;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.btn--back {
+  background-color: transparent;
+  color: var(--text-dark);
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.btn--back:hover {
+  color: var(--primary-color);
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.cart__header {
+  display: block;
+  text-align: center;
+  /* Adjust padding since fixed nav is removed */
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.cart__container {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .cart__container {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.cart__grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.cart__item {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  border: 1px solid var(--extra-light);
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.cart__item img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.cart__item__details h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.cart__item__price {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.cart__item__quantity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cart__item__quantity input {
+  width: 50px;
+  padding: 0.5rem;
+  text-align: center;
+  border: 1px solid var(--extra-light);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.cart__item__quantity .quantity-btn {
+  padding: 0.2rem 0.6rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: 1px solid var(--extra-light);
+  border-radius: 5px;
+  background-color: var(--extra-light);
+}
+
+.btn--remove {
+  background-color: #ff4d4d;
+  color: var(--white);
+}
+
+.cart__summary {
+  padding: 1.5rem;
+  border: 1px solid var(--extra-light);
+  border-radius: 5px;
+  height: fit-content;
+}
+
+.cart__summary h3 {
+  margin-bottom: 1rem;
+}
+
+.footer__container {
+  display: grid;
+  gap: 2rem;
+}
 
 .popular__card__content h4 {
   margin-bottom: 0.5rem;
@@ -324,7 +450,7 @@ header {
 
 .banner__image {
   min-height: 200px;
-  background-image: url("assets/banner.jpg");
+  background-image: url("assets/banners.jpg");
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -442,6 +568,73 @@ footer {
   font-size: 1rem;
   color: var(--text-dark);
   text-align: center;
+}
+
+/* NOTIFICATION STYLES */
+#notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000; /* High z-index to float above everything */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: auto;
+}
+
+.notification {
+  min-width: 300px;
+  padding: 1rem 1.5rem;
+  border-radius: 5px;
+  color: var(--white);
+  background-color: var(--text-dark); /* Default color */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  transform: translateX(110%);
+  opacity: 0;
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.notification.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Modifier classes for different notification types */
+.notification--success {
+  background-color: #4caf50; /* A nice green */
+}
+
+.notification--error {
+  background-color: #ff4d4d; /* Using the same red as the remove button */
+}
+
+.notification--info {
+  background-color: #2196f3; /* A standard blue */
+}
+
+.notification p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.notification__close {
+  background: none;
+  border: none;
+  color: inherit; /* Inherit color from parent .notification */
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+  padding: 0;
+  transition: opacity 0.3s;
+}
+
+.notification__close:hover {
+  opacity: 1;
 }
 
 @media (width > 540px) {
