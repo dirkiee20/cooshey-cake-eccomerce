@@ -97,8 +97,111 @@ ScrollReveal().reveal(".subscribe__content form", {
   ...scrollRevealOption,
   delay: 1000,
 });
-// Wait for the document to be fully loaded before running the script
+
 document.addEventListener("DOMContentLoaded", function () {
+  // --- Login/Register Modal Logic ---
+  const loginRegisterModal = document.getElementById('login-register-modal');
+  const loginPopupBtn = document.getElementById('login-popup-btn');
+  const closeLoginRegisterModalBtn = loginRegisterModal.querySelector('.close-btn');
+  const loginFormContainer = document.getElementById('login-form-container');
+  const registerFormContainer = document.getElementById('register-form-container');
+  const showRegisterFormLink = document.getElementById('show-register-form');
+  const showLoginFormLink = document.getElementById('show-login-form');
+  const loginForm = document.getElementById('login-form');
+  const registerForm = document.getElementById('register-form');
+
+  const openLoginRegisterModal = () => {
+    if (loginRegisterModal) loginRegisterModal.style.display = 'flex';
+  };
+
+  const closeLoginRegisterModal = () => {
+    if (loginRegisterModal) loginRegisterModal.style.display = 'none';
+  };
+
+  if (loginPopupBtn) {
+    loginPopupBtn.onclick = openLoginRegisterModal;
+  }
+
+  if (closeLoginRegisterModalBtn) {
+    closeLoginRegisterModalBtn.onclick = closeLoginRegisterModal;
+  }
+
+  showRegisterFormLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      loginFormContainer.style.display = 'none';
+      registerFormContainer.style.display = 'block';
+  });
+
+  showLoginFormLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      loginFormContainer.style.display = 'block';
+      registerFormContainer.style.display = 'none';
+  });
+
+  const API_URL = 'http://localhost:3001/api/users';
+
+  loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      try {
+          const response = await fetch(`${API_URL}/login`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ email, password })
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+              throw new Error(data.message || 'Failed to login');
+          }
+
+          localStorage.setItem('userToken', data.token);
+          alert('Login successful!');
+          closeLoginRegisterModal();
+
+      } catch (error) {
+          console.error('Login error:', error);
+          alert(`Login failed: ${error.message}`);
+      }
+  });
+
+  registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('register-name').value;
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+
+      try {
+          const response = await fetch(`${API_URL}/`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ name, email, password })
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+              throw new Error(data.message || 'Failed to register');
+          }
+
+          localStorage.setItem('userToken', data.token);
+          alert('Registration successful!');
+          closeLoginRegisterModal();
+
+      } catch (error) {
+          console.error('Registration error:', error);
+          alert(`Registration failed: ${error.message}`);
+      }
+  });
+
+
   // --- Floating Notification Modal Logic ---
 
   // Get the modal element
@@ -138,6 +241,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (event.target == buyNowModal) {
       closeBuyNowModal();
     }
+    if (event.target == loginRegisterModal) {
+        closeLoginRegisterModal();
+    }
   };
 
   // Also close the modal if the user presses the Escape key
@@ -148,6 +254,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       if (buyNowModal && buyNowModal.classList.contains("show-modal")) {
         closeBuyNowModal();
+      }
+      if (loginRegisterModal && loginRegisterModal.style.display === 'flex') {
+        closeLoginRegisterModal();
       }
     }
   });
@@ -250,8 +359,9 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // Add event listeners to all sections containing "Buy Now" buttons
-  const popularGrid = document.querySelector(".popular__grid");
-  const discoverContainer = document.querySelector(".discover__container");
+  
+  const popularGrid = document.querySelector("#popular-cakes .popular__grid");
+  const discoverContainer = document.querySelector("#most-selling .discover__grid");
 
   if (popularGrid) {
     popularGrid.addEventListener("click", handleBuyNowClick);
@@ -259,4 +369,107 @@ document.addEventListener("DOMContentLoaded", function () {
   if (discoverContainer) {
     discoverContainer.addEventListener("click", handleBuyNowClick);
   }
+
+  // --- Fetch and Display Products from API ---
+  const fetchAndDisplayPopularProducts = async () => {
+    const popularGrid = document.querySelector("#popular-cakes .popular__grid");
+    if (!popularGrid) return;
+
+    try {
+      // Fetch products from your backend API
+      const response = await fetch(
+        "http://localhost:3001/api/products?category=popular"
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const products = await response.json();
+
+      // Clear any placeholder content
+      popularGrid.innerHTML = '';
+      
+      // Create and append a card for each product
+      products.forEach((product) => {
+        const card = document.createElement("div");
+        card.className = 'popular__card';
+        card.innerHTML = `
+          <div class="popular__card__image">
+            <img src="${product.imageUrl}" alt="${product.name}" />
+            <div class="popular__card__ribbon">POPULAR</div>
+          </div>
+          <div class="popular__card__content">
+            <div class="popular__card__ratings">
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-fill"></i>
+              <i class="ri-star-half-fill"></i>
+              <i class="ri-star-line"></i>
+            </div>
+            <h4>${product.name}</h4>
+            <p>${product.description || 'A delicious treat.'}</p>
+          </div>
+          <div class="popular__card__footer">
+            <h4>$${product.price.toFixed(2)}</h4>
+            <div class="action-btns">
+              <button class="btn"><i class="ri-shopping-cart-line"></i></button>
+              <button class="btn btn-buy-now" data-product-name="${
+                product.name
+              }" data-product-price="${product.price.toFixed(2)}">Buy Now</button>
+            </div>
+          </div>
+        `;
+        popularGrid.appendChild(card);
+      });
+    } catch (error) {
+      console.error("Failed to fetch popular products:", error);
+      popularGrid.innerHTML =
+        '<p style="color: var(--text-dark);">Sorry, we couldn\'t load our flavours. Please try again later.</p>';
+    }
+  };
+
+  const fetchAndDisplayBestSellers = async () => {
+    const bestSellerGrid = document.querySelector("#most-selling .discover__grid");
+    if (!bestSellerGrid) return;
+
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/products?category=best-seller"
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const products = await response.json();
+
+      bestSellerGrid.innerHTML = "";
+
+      products.forEach((product) => {
+        const card = document.createElement("div");
+        card.className = "discover__card";
+        card.innerHTML = `
+          <div class="discover__card__image">
+            <img src="${product.imageUrl}" alt="${product.name}" />
+          </div>
+          <div class="discover__card__content">
+            <h4>${product.name}</h4>
+            <p class="section__description">${product.description || "A delicious treat."}</p>
+            <h3>$${product.price.toFixed(2)}</h3>
+            <div class="discover__card__btn">
+              <button class="btn btn-buy-now" data-product-name="${product.name}" data-product-price="${product.price.toFixed(2)}">
+                Buy Now
+              </button>
+            </div>
+          </div>
+        `;
+        bestSellerGrid.appendChild(card);
+      });
+    } catch (error) {
+      console.error("Failed to fetch best sellers:", error);
+      bestSellerGrid.innerHTML =
+        '<p style="color: var(--text-dark);">Sorry, we couldn\'t load our best sellers. Please try again later.</p>';
+    }
+  };
+
+  // Call the function to load products when the page loads
+  fetchAndDisplayPopularProducts();
+  fetchAndDisplayBestSellers();
 });

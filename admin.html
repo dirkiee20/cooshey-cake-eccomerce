@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Cooshey Cake n' Arts</title>
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Admin Dashboard</h1>
+        <a href="index.html" class="back-link">← Back to Main Site</a>
+      </header>
+
+      <main>
+        <section class="form-section">
+          <h2 id="form-title">Add New Product</h2>
+          <form id="product-form">
+            <input type="hidden" id="product-id" />
+            <div class="form-group">
+              <label for="name">Product Name</label>
+              <input type="text" id="name" required />
+            </div>
+            <div class="form-group">
+              <label for="price">Price</label>
+              <input type="number" id="price" step="0.01" required />
+            </div>
+            <div class="form-group">
+              <label for="imageUrl">Image URL</label>
+              <input
+                type="text"
+                id="imageUrl"
+                placeholder="e.g., assets/product.png"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select id="category" required>
+                <option value="" disabled selected>Select a category</option>
+                <option value="popular">Popular</option>
+                <option value="best-seller">Best Seller</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" rows="4"></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" id="form-submit-btn">Add Product</button>
+              <button type="button" id="cancel-edit-btn" class="hidden">Cancel Edit</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="product-list-section">
+          <h2>Existing Products</h2>
+          <table id="product-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="product-list">
+              <!-- Products will be loaded here -->
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+    <script src="admin.js"></script>
+  </body>
+</html>
