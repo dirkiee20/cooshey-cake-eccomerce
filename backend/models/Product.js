@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['popular', 'best-seller']
+    enum: ['popular', 'best-seller', 'main-product']
   }
 }, { timestamps: true });
 

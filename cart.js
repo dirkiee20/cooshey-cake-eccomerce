@@ -109,11 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (target.classList.contains('minus-btn')) {
             quantity = Math.max(1, quantity - 1);
-            quantityInput.value = quantity;
             await updateCart(productId, quantity);
         } else if (target.classList.contains('plus-btn')) {
             quantity += 1;
-            quantityInput.value = quantity;
             await updateCart(productId, quantity);
         }
     });
@@ -138,15 +136,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Failed to update cart');
             }
 
-            // Refresh the cart from the server to ensure data consistency
-            fetchCart();
+            const updatedCart = await response.json();
+            renderCart(updatedCart.items);
+            calculateSummary(updatedCart.items);
 
         } catch (error) {
             console.error('Error updating cart:', error);
             alert('Could not update the cart. Please try again.');
+            // If the update fails, refresh the cart from the server to revert the changes
+            fetchCart();
         }
     };
 
     // Initial fetch of the cart
     fetchCart();
+
+    const checkoutBtn = document.querySelector('.btn--checkout');
+    if(checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            window.location.href = 'checkout.html';
+        });
+    }
 });

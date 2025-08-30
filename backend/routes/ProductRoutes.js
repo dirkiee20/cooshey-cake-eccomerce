@@ -97,4 +97,30 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// @route   DELETE /api/products
+// @desc    Delete multiple products
+// @access  Public (for now)
+router.delete('/', async (req, res) => {
+  const { productIds } = req.body;
+
+  if (!productIds || !Array.isArray(productIds) || productIds.length === 0) {
+    return res.status(400).json({ msg: 'Please provide an array of product IDs to delete.' });
+  }
+
+  try {
+    const result = await Product.deleteMany({
+      _id: { $in: productIds },
+    });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ msg: 'No products found with the provided IDs.' });
+    }
+
+    res.json({ msg: `${result.deletedCount} products removed successfully.` });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

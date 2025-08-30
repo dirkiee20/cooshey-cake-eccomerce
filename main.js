@@ -99,9 +99,27 @@ ScrollReveal().reveal(".subscribe__content form", {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  // --- Auth status check ---
+  const loginPopupBtn = document.getElementById('login-popup-btn');
+  const userToken = localStorage.getItem('userToken');
+
+  const openLoginRegisterModal = () => {
+    if (loginRegisterModal) loginRegisterModal.style.display = 'flex';
+  };
+
+  if (userToken) {
+    loginPopupBtn.textContent = 'Logout';
+    loginPopupBtn.removeEventListener('click', openLoginRegisterModal)
+    loginPopupBtn.addEventListener('click', () => {
+      localStorage.removeItem('userToken');
+      window.location.reload();
+    });
+  } else {
+    loginPopupBtn.addEventListener('click', openLoginRegisterModal);
+  }
+
   // --- Login/Register Modal Logic ---
   const loginRegisterModal = document.getElementById('login-register-modal');
-  const loginPopupBtn = document.getElementById('login-popup-btn');
   const closeLoginRegisterModalBtn = loginRegisterModal.querySelector('.close-btn');
   const loginFormContainer = document.getElementById('login-form-container');
   const registerFormContainer = document.getElementById('register-form-container');
@@ -110,17 +128,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
 
-  const openLoginRegisterModal = () => {
-    if (loginRegisterModal) loginRegisterModal.style.display = 'flex';
-  };
-
   const closeLoginRegisterModal = () => {
     if (loginRegisterModal) loginRegisterModal.style.display = 'none';
   };
-
-  if (loginPopupBtn) {
-    loginPopupBtn.onclick = openLoginRegisterModal;
-  }
 
   if (closeLoginRegisterModalBtn) {
     closeLoginRegisterModalBtn.onclick = closeLoginRegisterModal;
@@ -162,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           localStorage.setItem('userToken', data.token);
           alert('Login successful!');
-          closeLoginRegisterModal();
+          window.location.reload();
 
       } catch (error) {
           console.error('Login error:', error);
@@ -193,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           localStorage.setItem('userToken', data.token);
           alert('Registration successful!');
-          closeLoginRegisterModal();
+          window.location.reload();
 
       } catch (error) {
           console.error('Registration error:', error);
@@ -358,16 +368,63 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // Add event listeners to all sections containing "Buy Now" buttons
-  
+  const handleAddToCartClick = async (event) => {
+    const addToCartBtn = event.target.closest('.add-to-cart-btn');
+    if (addToCartBtn) {
+      event.preventDefault();
+      const productId = addToCartBtn.dataset.productId;
+      const userToken = localStorage.getItem('userToken');
+
+      if (!userToken) {
+        alert('Please login to add items to your cart.');
+        // Optionally, open the login modal
+        const loginRegisterModal = document.getElementById('login-register-modal');
+        if (loginRegisterModal) loginRegisterModal.style.display = 'flex';
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:3001/api/cart', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${userToken}`
+          },
+          body: JSON.stringify({ productId, quantity: 1 })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to add item to cart');
+        }
+
+        alert('Item added to cart successfully!');
+
+      } catch (error) {
+        console.error('Add to cart error:', error);
+        alert(`Error: ${error.message}`);
+      }
+    }
+  };
+
+  // Add event listeners to all sections containing "Buy Now" and "Add to Cart" buttons
   const popularGrid = document.querySelector("#popular-cakes .popular__grid");
   const discoverContainer = document.querySelector("#most-selling .discover__grid");
+  const mainProductsGrid = document.querySelector("#main-products .main-product__grid");
+
+  const handleProductActions = (event) => {
+    handleBuyNowClick(event);
+    handleAddToCartClick(event);
+  };
 
   if (popularGrid) {
-    popularGrid.addEventListener("click", handleBuyNowClick);
+    popularGrid.addEventListener("click", handleProductActions);
   }
   if (discoverContainer) {
-    discoverContainer.addEventListener("click", handleBuyNowClick);
+    discoverContainer.addEventListener("click", handleProductActions);
+  }
+  if (mainProductsGrid) {
+    mainProductsGrid.addEventListener("click", handleProductActions);
   }
 
   // --- Fetch and Display Products from API ---
@@ -411,7 +468,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="popular__card__footer">
             <h4>$${product.price.toFixed(2)}</h4>
             <div class="action-btns">
-              <button class="btn"><i class="ri-shopping-cart-line"></i></button>
+              <button class="btn add-to-cart-btn" data-product-id="${product._id}"><i class="ri-shopping-cart-line"></i></button>
               <button class="btn btn-buy-now" data-product-name="${
                 product.name
               }" data-product-price="${product.price.toFixed(2)}">Buy Now</button>
@@ -419,6 +476,12 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         `;
         popularGrid.appendChild(card);
+      });
+
+      // Re-initialize ScrollReveal for the newly added cards
+      ScrollReveal().reveal("#popular-cakes .popular__card", {
+        ...scrollRevealOption,
+        interval: 500,
       });
     } catch (error) {
       console.error("Failed to fetch popular products:", error);
@@ -454,6 +517,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <p class="section__description">${product.description || "A delicious treat."}</p>
             <h3>$${product.price.toFixed(2)}</h3>
             <div class="discover__card__btn">
+              <button class="btn add-to-cart-btn" data-product-id="${product._id}"><i class="ri-shopping-cart-line"></i></button>
               <button class="btn btn-buy-now" data-product-name="${product.name}" data-product-price="${product.price.toFixed(2)}">
                 Buy Now
               </button>
@@ -462,6 +526,12 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         bestSellerGrid.appendChild(card);
       });
+
+      // Re-initialize ScrollReveal for the newly added cards
+      ScrollReveal().reveal("#most-selling .discover__card", {
+        ...scrollRevealOption,
+        interval: 500,
+      });
     } catch (error) {
       console.error("Failed to fetch best sellers:", error);
       bestSellerGrid.innerHTML =
@@ -469,7 +539,56 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
+  const fetchAndDisplayMainProducts = async () => {
+    const mainProductsGrid = document.querySelector("#main-products .main-product__grid");
+    if (!mainProductsGrid) return;
+
+    try {
+      // Fetch main products from your backend API
+      const response = await fetch(
+        "http://localhost:3001/api/products?category=main-product"
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const products = await response.json();
+
+      // Clear any placeholder content
+      mainProductsGrid.innerHTML = '';
+      
+      // Create and append a card for each product
+      products.forEach((product) => {
+        const card = document.createElement("div");
+        card.className = 'main-product__card'; // New class for a unique style
+        card.innerHTML = `
+          <div class="main-product__image-container">
+            <img src="${product.imageUrl}" alt="${product.name}" />
+            <div class="main-product__actions">
+              <button class="btn add-to-cart-btn" data-product-id="${product._id}" title="Add to Cart"><i class="ri-shopping-cart-line"></i></button>
+              <button class="btn btn-buy-now" data-product-name="${product.name}" data-product-price="${product.price.toFixed(2)}">Buy Now</button>
+            </div>
+          </div>
+          <div class="main-product__content">
+            <h4 class="main-product__name">${product.name}</h4>
+            <p class="main-product__price">$${product.price.toFixed(2)}</p>
+          </div>
+        `;
+        mainProductsGrid.appendChild(card);
+      });
+
+      // Re-initialize ScrollReveal for the newly added cards
+      ScrollReveal().reveal("#main-products .main-product__card", {
+        ...scrollRevealOption,
+        interval: 500,
+      });
+    } catch (error) {
+      console.error("Failed to fetch all products:", error);
+      mainProductsGrid.innerHTML = '<p style="color: var(--text-dark);">Sorry, we couldn\'t load our main products. Please try again later.</p>';
+    }
+  };
+
   // Call the function to load products when the page loads
   fetchAndDisplayPopularProducts();
   fetchAndDisplayBestSellers();
+  fetchAndDisplayMainProducts();
 });
