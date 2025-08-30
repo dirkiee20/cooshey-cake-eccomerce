@@ -23,11 +23,11 @@
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="inventory.html" class="nav-item">
                 <i class="fas fa-box"></i>
                 <span>Inventory</span>
             </a>
-            <a href="#" class="nav-item">
+            <a href="customers.html" class="nav-item">
                 <i class="fas fa-users"></i>
                 <span>Customers</span>
             </a>
@@ -47,153 +47,116 @@
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Search...">
             </div>
-            <div class="top-bar-right">
-                <button class="btn-icon" id="themeSwitcher">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <button class="btn-icon">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge">3</span>
-                </button>
-                <div class="user-menu">
-                    <img src="https://via.placeholder.com/32" alt="User" class="avatar">
-                    <span>Admin</span>
-                </div>
-            </div>
         </nav>
 
         <!-- Rest of the content -->
         <div class="container">
-          <header>
-            <h1>Admin Dashboard</h1>
-            <a href="index.html" class="back-link">← Back to Main Site</a>
-          </header>
+            <header>
+                <h1>Admin Dashboard</h1>
+            </header>
   
-          <section class="sales-summary">
-            <div class="summary-card">
-              <div class="card-icon">$</div>
-              <div class="card-content">
-                <h3>Total Sales</h3>
-                <p class="card-value">$24,500</p>
-                <span class="trend positive">↑ 12%</span>
-              </div>
-            </div>
-            
-            <div class="summary-card">
-              <div class="card-icon">#</div>
-              <div class="card-content">
-                <h3>Products Sold</h3>
-                <p class="card-value">156</p>
-                <span class="trend positive">↑ 8%</span>
-              </div>
-            </div>
+            <section class="sales-summary">
+                <div class="summary-card">
+                    <div class="card-icon">$</div>
+                    <div class="card-content">
+                        <h3>Total Sales</h3>
+                        <p class="card-value">$24,500</p>
+                        <span class="trend positive">↑ 12%</span>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon">#</div>
+                    <div class="card-content">
+                        <h3>Products Sold</h3>
+                        <p class="card-value">156</p>
+                        <span class="trend positive">↑ 8%</span>
+                    </div>
+                </div>
   
-            <div class="summary-card">
-              <div class="card-icon">★</div>
-              <div class="card-content">
-                <h3>Top Product</h3>
-                <p class="card-value">Chocolate Cake</p>
-                <span class="sales-count">43 sales</span>
-              </div>
-            </div>
+                <div class="summary-card">
+                    <div class="card-icon">★</div>
+                    <div class="card-content">
+                        <h3>Top Product</h3>
+                        <p class="card-value">Chocolate Cake</p>
+                        <span class="sales-count">43 sales</span>
+                    </div>
+                </div>
   
-            <div class="summary-card">
-              <div class="card-icon">↗</div>
-              <div class="card-content">
-                <h3>Revenue Growth</h3>
-                <p class="card-value">15.8%</p>
-                <span class="period">vs last month</span>
-              </div>
-            </div>
-          </section>
-  
-          <section class="chart-section">
-            <div class="chart-container">
-              <canvas id="salesChart"></canvas>
-            </div>
-          </section>
-  
-          <main>
-            <section class="form-section">
-              <h2 id="form-title">Add New Product</h2>
-              <form id="product-form">
-                <input type="hidden" id="product-id" />
-                <div class="form-group">
-                  <label for="name">Product Name</label>
-                  <input type="text" id="name" required />
+                <div class="summary-card">
+                    <div class="card-icon">↗</div>
+                    <div class="card-content">
+                        <h3>Revenue Growth</h3>
+                        <p class="card-value">15.8%</p>
+                        <span class="period">vs last month</span>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <label for="price">Price</label>
-                  <input type="number" id="price" step="0.01" required />
-                </div>
-                <div class="form-group">
-                  <label for="stocks">Stocks</label>
-                  <input type="number" id="stocks" min="0" step="1" required />
-                </div>
-                <div class="form-group">
-                  <label for="imageUrl">Image URL</label>
-                  <input
-                    type="text"
-                    id="imageUrl"
-                    placeholder="e.g., assets/product.png"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="category">Category</label>
-                  <select id="category" required>
-                    <option value="" disabled selected>Select a category</option>
-                    <option value="popular">Popular</option>
-                    <option value="best-seller">Best Seller</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="description">Description</label>
-                  <textarea id="description" rows="4"></textarea>
-                </div>
-                <div class="form-actions">
-                  <button type="submit" id="form-submit-btn">Add Product</button>
-                  <button type="button" id="cancel-edit-btn" class="hidden">Cancel Edit</button>
-                </div>
-              </form>
             </section>
   
-            <section class="product-list-section">
-              <h2>Existing Products</h2>
-              <table id="product-table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Stocks</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="product-list">
-                  <!-- Products will be loaded here -->
-                </tbody>
-              </table>
+            <section class="chart-section">
+                <div class="chart-container">
+                    <canvas id="salesChart"></canvas>
+                </div>
             </section>
-          </main>
         </div>
     </div>
 
     <script>
-        // Theme Switcher
-        document.getElementById('themeSwitcher').addEventListener('click', () => {
-            document.documentElement.setAttribute('data-bs-theme',
-                document.documentElement.getAttribute('data-bs-theme') === 'light' ? 'dark' : 'light'
-            );
-        });
-  
         // Sidebar Toggle
         document.getElementById('sidebarToggle').addEventListener('click', () => {
             document.getElementById('sidebar').classList.toggle('collapsed');
             document.querySelector('.main-content').classList.toggle('expanded');
         });
-      </script>
-      <script src="admin.js"></script>
-      <script src="admin-charts.js"></script>
+  
+        // Customer Management Scripts
+        document.addEventListener('DOMContentLoaded', function() {
+            const customerSection = document.querySelector('.customers-section');
+            const modal = document.getElementById('customerModal');
+            const addCustomerBtn = document.getElementById('addCustomerBtn');
+            const closeButtons = document.querySelectorAll('.close-modal');
+            const customerForm = document.getElementById('customerForm');
+
+            // Show customer section when clicking on sidebar link
+            document.querySelector('[data-section="customers"]').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+                customerSection.style.display = 'block';
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+            });
+
+            // Modal handling
+            addCustomerBtn.addEventListener('click', () => {
+                document.getElementById('modalTitle').textContent = 'Add New Customer';
+                customerForm.reset();
+                modal.style.display = 'block';
+            });
+
+            closeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+            });
+
+            // Form submission
+            customerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const customerId = document.getElementById('customerId').value;
+                const customerData = {
+                    name: document.getElementById('customerName').value,
+                    email: document.getElementById('customerEmail').value,
+                    phone: document.getElementById('customerPhone').value,
+                    address: document.getElementById('customerAddress').value
+                };
+
+                // Here you would typically make an API call to save the customer
+                console.log('Saving customer:', customerData);
+                modal.style.display = 'none';
+                // Refresh customer list after saving
+            });
+        });
+    </script>
+    <script src="admin.js"></script>
+    <script src="admin-charts.js"></script>
 </body>
 </html>

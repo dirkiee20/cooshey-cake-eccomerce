@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management - Cooshey Cake</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="brand">🧁 Cooshey</span>
+            <button class="btn-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="admin.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="inventory.html" class="nav-item active">
+                <i class="fas fa-box"></i>
+                <span>Inventory</span>
+            </a>
+            <a href="customers.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+            <div class="nav-divider"></div>
+            <a href="index.html" class="nav-item nav-back">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Site</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <nav class="top-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search products...">
+            </div>
+        </nav>
+
+        <!-- Inventory Content -->
+        <div class="container">
+            <header>
+                <h1>Inventory Management</h1>
+            </header>
+
+            <main>
+                <section class="form-section">
+                    <h2 id="form-title">Add New Product</h2>
+                    <form id="product-form">
+                        <input type="hidden" id="product-id" />
+                        <div class="form-group">
+                            <label for="name">Product Name</label>
+                            <input type="text" id="name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number" id="price" step="0.01" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="stocks">Stocks</label>
+                            <input type="number" id="stocks" min="0" step="1" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="imageUrl">Image URL</label>
+                            <input type="text" id="imageUrl" placeholder="e.g., assets/product.png" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select id="category" required>
+                                <option value="" disabled selected>Select a category</option>
+                                <option value="popular">Popular</option>
+                                <option value="best-seller">Best Seller</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" rows="4"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" id="form-submit-btn">Add Product</button>
+                            <button type="button" id="cancel-edit-btn" class="hidden">Cancel Edit</button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="product-list-section">
+                    <h2>Existing Products</h2>
+                    <table id="product-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Stocks</th>
+                                <th>Price</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-list">
+                            <!-- Products will be loaded here -->
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Theme Switcher and Sidebar Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme switcher
+            document.getElementById('themeSwitcher').addEventListener('click', () => {
+                document.documentElement.setAttribute('data-bs-theme',
+                    document.documentElement.getAttribute('data-bs-theme') === 'light' ? 'dark' : 'light'
+                );
+            });
+
+            // Sidebar toggle
+            document.getElementById('sidebarToggle').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+                document.querySelector('.main-content').classList.toggle('expanded');
+            });
+
+            // Product form handling
+            const productForm = document.getElementById('product-form');
+            const productList = document.getElementById('product-list');
+
+            productForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const productData = {
+                    name: document.getElementById('name').value,
+                    price: document.getElementById('price').value,
+                    stocks: document.getElementById('stocks').value,
+                    imageUrl: document.getElementById('imageUrl').value,
+                    category: document.getElementById('category').value,
+                    description: document.getElementById('description').value
+                };
+                
+                // Here you would typically make an API call to save the product
+                console.log('Saving product:', productData);
+                productForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>
+                
+                // Here you would typically make an API call to save the product
+                console.log('Saving product:', productData);
+                productForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>

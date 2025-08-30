@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Management - Cooshey Cake</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="brand">🧁 Cooshey</span>
+            <button class="btn-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="admin.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-box"></i>
+                <span>Inventory</span>
+            </a>
+            <a href="customers.html" class="nav-item active">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+            <div class="nav-divider"></div>
+            <a href="index.html" class="nav-item nav-back">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Site</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <nav class="top-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search customers...">
+            </div>
+        </nav>
+
+        <!-- Customer Management Section -->
+        <div class="container">
+            <div class="section-header">
+                <h2>Customer Management</h2>
+            </div>
+
+            <!-- Customer Form Modal -->
+            <div class="modal" id="customerModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modalTitle">Add New Customer</h3>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <form id="customerForm">
+                        <input type="hidden" id="customerId">
+                        <div class="form-group">
+                            <label for="customerName">Full Name</label>
+                            <input type="text" id="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerEmail">Email</label>
+                            <input type="email" id="customerEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerPhone">Phone</label>
+                            <input type="tel" id="customerPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="customerAddress">Address</label>
+                            <textarea id="customerAddress" rows="3"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Customer</button>
+                            <button type="button" class="btn btn-secondary close-modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Customers Table -->
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customersList">
+                            <!-- Sample data -->
+                            <tr>
+                                <td>John Doe</td>
+                                <td>john@example.com</td>
+                                <td>123-456-7890</td>
+                                <td>123 Main St</td>
+                                <td>
+                                    <button class="btn-icon btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/customers.js"></script>
+</body>
+</html>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/customers.js"></script>
+</body>
+</html>
