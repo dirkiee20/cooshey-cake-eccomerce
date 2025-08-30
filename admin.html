@@ -1,128 +1,199 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Cooshey Cake n' Arts</title>
-    <link rel="stylesheet" href="admin.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <h1>Admin Dashboard</h1>
-        <a href="index.html" class="back-link">← Back to Main Site</a>
-      </header>
-
-      <section class="sales-summary">
-        <div class="summary-card">
-          <div class="card-icon">$</div>
-          <div class="card-content">
-            <h3>Total Sales</h3>
-            <p class="card-value">$24,500</p>
-            <span class="trend positive">↑ 12%</span>
-          </div>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="brand">🧁 Cooshey</span>
+            <button class="btn-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
-        
-        <div class="summary-card">
-          <div class="card-icon">#</div>
-          <div class="card-content">
-            <h3>Products Sold</h3>
-            <p class="card-value">156</p>
-            <span class="trend positive">↑ 8%</span>
-          </div>
-        </div>
-
-        <div class="summary-card">
-          <div class="card-icon">★</div>
-          <div class="card-content">
-            <h3>Top Product</h3>
-            <p class="card-value">Chocolate Cake</p>
-            <span class="sales-count">43 sales</span>
-          </div>
-        </div>
-
-        <div class="summary-card">
-          <div class="card-icon">↗</div>
-          <div class="card-content">
-            <h3>Revenue Growth</h3>
-            <p class="card-value">15.8%</p>
-            <span class="period">vs last month</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="chart-section">
-        <div class="chart-container">
-          <canvas id="salesChart"></canvas>
-        </div>
-      </section>
-
-      <main>
-        <section class="form-section">
-          <h2 id="form-title">Add New Product</h2>
-          <form id="product-form">
-            <input type="hidden" id="product-id" />
-            <div class="form-group">
-              <label for="name">Product Name</label>
-              <input type="text" id="name" required />
-            </div>
-            <div class="form-group">
-              <label for="price">Price</label>
-              <input type="number" id="price" step="0.01" required />
-            </div>
-            <div class="form-group">
-              <label for="stocks">Stocks</label>
-              <input type="number" id="stocks" min="0" step="1" required />
-            </div>
-            <div class="form-group">
-              <label for="imageUrl">Image URL</label>
-              <input
-                type="text"
-                id="imageUrl"
-                placeholder="e.g., assets/product.png"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="category">Category</label>
-              <select id="category" required>
-                <option value="" disabled selected>Select a category</option>
-                <option value="popular">Popular</option>
-                <option value="best-seller">Best Seller</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <textarea id="description" rows="4"></textarea>
-            </div>
-            <div class="form-actions">
-              <button type="submit" id="form-submit-btn">Add Product</button>
-              <button type="button" id="cancel-edit-btn" class="hidden">Cancel Edit</button>
-            </div>
-          </form>
-        </section>
-
-        <section class="product-list-section">
-          <h2>Existing Products</h2>
-          <table id="product-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Stocks</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="product-list">
-              <!-- Products will be loaded here -->
-            </tbody>
-          </table>
-        </section>
-      </main>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-box"></i>
+                <span>Inventory</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+            <div class="nav-divider"></div>
+            <a href="index.html" class="nav-item nav-back">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Site</span>
+            </a>
+        </nav>
     </div>
-    <script src="admin.js"></script>
-    <script src="admin-charts.js"></script>
-  </body>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <nav class="top-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="top-bar-right">
+                <button class="btn-icon" id="themeSwitcher">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="btn-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="user-menu">
+                    <img src="https://via.placeholder.com/32" alt="User" class="avatar">
+                    <span>Admin</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Rest of the content -->
+        <div class="container">
+          <header>
+            <h1>Admin Dashboard</h1>
+            <a href="index.html" class="back-link">← Back to Main Site</a>
+          </header>
+  
+          <section class="sales-summary">
+            <div class="summary-card">
+              <div class="card-icon">$</div>
+              <div class="card-content">
+                <h3>Total Sales</h3>
+                <p class="card-value">$24,500</p>
+                <span class="trend positive">↑ 12%</span>
+              </div>
+            </div>
+            
+            <div class="summary-card">
+              <div class="card-icon">#</div>
+              <div class="card-content">
+                <h3>Products Sold</h3>
+                <p class="card-value">156</p>
+                <span class="trend positive">↑ 8%</span>
+              </div>
+            </div>
+  
+            <div class="summary-card">
+              <div class="card-icon">★</div>
+              <div class="card-content">
+                <h3>Top Product</h3>
+                <p class="card-value">Chocolate Cake</p>
+                <span class="sales-count">43 sales</span>
+              </div>
+            </div>
+  
+            <div class="summary-card">
+              <div class="card-icon">↗</div>
+              <div class="card-content">
+                <h3>Revenue Growth</h3>
+                <p class="card-value">15.8%</p>
+                <span class="period">vs last month</span>
+              </div>
+            </div>
+          </section>
+  
+          <section class="chart-section">
+            <div class="chart-container">
+              <canvas id="salesChart"></canvas>
+            </div>
+          </section>
+  
+          <main>
+            <section class="form-section">
+              <h2 id="form-title">Add New Product</h2>
+              <form id="product-form">
+                <input type="hidden" id="product-id" />
+                <div class="form-group">
+                  <label for="name">Product Name</label>
+                  <input type="text" id="name" required />
+                </div>
+                <div class="form-group">
+                  <label for="price">Price</label>
+                  <input type="number" id="price" step="0.01" required />
+                </div>
+                <div class="form-group">
+                  <label for="stocks">Stocks</label>
+                  <input type="number" id="stocks" min="0" step="1" required />
+                </div>
+                <div class="form-group">
+                  <label for="imageUrl">Image URL</label>
+                  <input
+                    type="text"
+                    id="imageUrl"
+                    placeholder="e.g., assets/product.png"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="category">Category</label>
+                  <select id="category" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="popular">Popular</option>
+                    <option value="best-seller">Best Seller</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea id="description" rows="4"></textarea>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" id="form-submit-btn">Add Product</button>
+                  <button type="button" id="cancel-edit-btn" class="hidden">Cancel Edit</button>
+                </div>
+              </form>
+            </section>
+  
+            <section class="product-list-section">
+              <h2>Existing Products</h2>
+              <table id="product-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Stocks</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="product-list">
+                  <!-- Products will be loaded here -->
+                </tbody>
+              </table>
+            </section>
+          </main>
+        </div>
+    </div>
+
+    <script>
+        // Theme Switcher
+        document.getElementById('themeSwitcher').addEventListener('click', () => {
+            document.documentElement.setAttribute('data-bs-theme',
+                document.documentElement.getAttribute('data-bs-theme') === 'light' ? 'dark' : 'light'
+            );
+        });
+  
+        // Sidebar Toggle
+        document.getElementById('sidebarToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.querySelector('.main-content').classList.toggle('expanded');
+        });
+      </script>
+      <script src="admin.js"></script>
+      <script src="admin-charts.js"></script>
+</body>
 </html>
