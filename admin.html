@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard - Cooshey Cake n' Arts</title>
     <link rel="stylesheet" href="admin.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <div class="container">
@@ -12,6 +13,50 @@
         <h1>Admin Dashboard</h1>
         <a href="index.html" class="back-link">← Back to Main Site</a>
       </header>
+
+      <section class="sales-summary">
+        <div class="summary-card">
+          <div class="card-icon">$</div>
+          <div class="card-content">
+            <h3>Total Sales</h3>
+            <p class="card-value">$24,500</p>
+            <span class="trend positive">↑ 12%</span>
+          </div>
+        </div>
+        
+        <div class="summary-card">
+          <div class="card-icon">#</div>
+          <div class="card-content">
+            <h3>Products Sold</h3>
+            <p class="card-value">156</p>
+            <span class="trend positive">↑ 8%</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="card-icon">★</div>
+          <div class="card-content">
+            <h3>Top Product</h3>
+            <p class="card-value">Chocolate Cake</p>
+            <span class="sales-count">43 sales</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="card-icon">↗</div>
+          <div class="card-content">
+            <h3>Revenue Growth</h3>
+            <p class="card-value">15.8%</p>
+            <span class="period">vs last month</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="chart-section">
+        <div class="chart-container">
+          <canvas id="salesChart"></canvas>
+        </div>
+      </section>
 
       <main>
         <section class="form-section">
@@ -25,6 +70,10 @@
             <div class="form-group">
               <label for="price">Price</label>
               <input type="number" id="price" step="0.01" required />
+            </div>
+            <div class="form-group">
+              <label for="stocks">Stocks</label>
+              <input type="number" id="stocks" min="0" step="1" required />
             </div>
             <div class="form-group">
               <label for="imageUrl">Image URL</label>
@@ -60,6 +109,7 @@
             <thead>
               <tr>
                 <th>Name</th>
+                <th>Stocks</th>
                 <th>Price</th>
                 <th>Category</th>
                 <th>Actions</th>
@@ -73,5 +123,6 @@
       </main>
     </div>
     <script src="admin.js"></script>
+    <script src="admin-charts.js"></script>
   </body>
 </html>

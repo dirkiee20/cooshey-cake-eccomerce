@@ -23,12 +23,12 @@ header {
 
 header h1 {
   margin: 0;
-  color: #e55c5c;
+  color:  #D4AF37;
 }
 
 .back-link {
   text-decoration: none;
-  color: #e55c5c;
+  color:  #D4AF37;
   font-weight: 500;
 }
 
@@ -43,7 +43,7 @@ main {
   background-color: #fff;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(129, 122, 122, 0.1);
 }
 
 h2 {
@@ -87,12 +87,12 @@ button {
 }
 
 button[type="submit"] {
-  background-color: #e55c5c;
+  background-color:  #D4AF37;
   color: white;
 }
 
 button[type="submit"]:hover {
-  background-color: #d44c4c;
+  background-color: #D4AF37;
 }
 
 .action-btn, #cancel-edit-btn {
@@ -101,7 +101,7 @@ button[type="submit"]:hover {
 }
 
 .action-btn:hover, #cancel-edit-btn:hover {
-  background-color: #5a6268;
+  background-color:  #D4AF37;
 }
 
 .hidden {
@@ -127,4 +127,85 @@ th {
   margin-right: 0.5rem;
   padding: 0.4rem 0.8rem;
   font-size: 0.9rem;
+}
+
+.sales-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.card-icon {
+  background-color: #D4AF37;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-content {
+  flex-grow: 1;
+}
+
+.card-content h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.card-value {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.trend {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.trend.positive {
+  color: #28a745;
+}
+
+.trend.negative {
+  color: #dc3545;
+}
+
+.sales-count, .period {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.chart-section {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.chart-container {
+  width: 100%;
+  height: 300px;
+  position: relative;
 }
